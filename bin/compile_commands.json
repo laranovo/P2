@@ -1,0 +1,12 @@
+[
+  {
+    "directory": "/mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2/bin",
+    "command": "cc  -Ivad@exe -I. -I.. -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -MD -MQ 'vad@exe/src_main_vad.c.o' -MF 'vad@exe/src_main_vad.c.o.d' -o 'vad@exe/src_main_vad.c.o' -c ../src/main_vad.c",
+    "file": "../src/main_vad.c"
+  },
+  {
+    "directory": "/mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2/bin",
+    "command": "cc  -Ivad@exe -I. -I.. -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -MD -MQ 'vad@exe/src_vad.c.o' -MF 'vad@exe/src_vad.c.o.d' -o 'vad@exe/src_vad.c.o' -c ../src/vad.c",
+    "file": "../src/vad.c"
+  }
+]
