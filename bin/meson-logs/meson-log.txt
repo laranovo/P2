@@ -1,4 +1,4 @@
-Build started at 2020-03-09T11:15:22.397642
+Build started at 2020-03-11T22:02:37.530159
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -7,6 +7,16 @@ Source dir: /mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2
 Build dir: /mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2/bin
 Build type: native build
 Project name: Practica 2 de PAV - deteccion de actividad vocal
+Sanity testing C compiler: cc
+Is cross compiler: False.
+Sanity check compiler command line: cc /mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2/bin/meson-private/sanitycheckc.c -o /mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2/bin/meson-private/sanitycheckc.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /mnt/c/Users/Patron/Desktop/2020 Q2/PAV/LAB/P2/bin/meson-private/sanitycheckc.exe
 Native C compiler: cc (gcc 7.4.0 "cc (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0")
 Build machine cpu family: x86_64
 Build machine cpu: x86_64

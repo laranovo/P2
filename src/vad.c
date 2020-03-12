@@ -5,6 +5,13 @@
 #include "vad.h"
 
 const float FRAME_TIME = 10.0F; /* in ms. */
+const int NINIT=3;
+const float ALFA1=0;
+const float ALFA2=0;
+const float DEF_PWR=-29.5;
+const float MIN_PWR=-90;
+
+
 
 /* 
  * As the output state is only ST_VOICE, ST_SILENCE, or ST_UNDEF,
@@ -25,7 +32,14 @@ typedef struct {
   float zcr;
   float p;
   float am;
-  float pprev;
+  float k0;
+  float k1;
+  float k2;
+  float alfa1;
+  float alfa2;
+  int time_vs;//tiempo minimo de silencio
+  int total_s;
+  int total_v;
 } Features;
 
 /* 
@@ -61,6 +75,10 @@ VAD_DATA * vad_open(float rate) {
   vad_data->state = ST_INIT;
   vad_data->sampling_rate = rate;
   vad_data->frame_length = rate * FRAME_TIME * 1e-3;
+  vad_data->k0=0;
+  vad_data->total_s=0;
+  vad_data->total_v=0;
+  vad_data->time_vs=20;
   return vad_data;
 }
 
@@ -68,7 +86,7 @@ VAD_STATE vad_close(VAD_DATA *vad_data) {
   /* 
    * TODO: decide what to do with the last undecided frames
    */
-  VAD_STATE state = vad_data->state;
+  VAD_STATE state = ST_SILENCE;
 
   free(vad_data);
   return state;
@@ -93,35 +111,76 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
   Features f = compute_features(x, vad_data->frame_length);
   vad_data->last_feature = f.p; /* save feature, in case you want to show */
 
-  switch (vad_data->state) {
+  switch (vad_data->state){
+
     case ST_INIT:
-      vad_data->state = ST_SILENCE;
+      if (vad_data->total_s < NINIT){
+        vad_data->k0+=pow(10, f.p/10); //formula de k0 en el manual
+        vad_data->state=ST_INIT;
+        vad_data->total_s+=1;    
+      }else{
+        vad_data->total_s=0;
+        vad_data->k0=10*log10(vad_data->k0/NINIT);
+        vad_data->k1=vad_data->k0 + ALFA1;
+        vad_data->k2=vad_data->k1 + ALFA2;
+        vad_data->state = ST_SILENCE;
+      }
       break;
 
     case ST_SILENCE:
-      if (f.p > 0.95)
-        vad_data->state = ST_VOICE;
+      if(vad_data->k1 >= f.p){
+        vad_data->state=ST_SILENCE;
+      }else{
+        vad_data->state=ST_MAYBE_VOICE;
+        vad_data->total_v=0;
+      }
       break;
 
     case ST_MAYBE_SILENCE:
-     
+      if(vad_data->total_s < vad_data->time_vs){
+        if(f.p >= vad_data->k2){
+          vad_data->state=ST_VOICE;
+        }else{
+          vad_data->state=ST_MAYBE_SILENCE;
+          vad_data->total_s+=1;
+        }
+      }else{
+        if(f.p >= vad_data->k2){
+          vad_data->state=ST_VOICE;
+        }else if(f.p <= vad_data->k1){
+          vad_data->state=ST_SILENCE;
+        }else{
+          vad_data->state=ST_MAYBE_SILENCE;
+          vad_data->total_s+=1;
+        }
+      }
       break;
 
     case ST_VOICE:
-      if (f.p < 0.01)
-        vad_data->state = ST_SILENCE;
+      if(vad_data->k2 <= f.p){
+        vad_data->state=ST_VOICE;
+      }else{
+        vad_data->state=ST_MAYBE_SILENCE;
+        vad_data->total_s=0;
+      }
       break;
     
     case ST_MAYBE_VOICE:
-      
+        if(f.p >= vad_data->k2){
+          vad_data->state=ST_VOICE;
+        }else if(f.p <= vad_data->k1){
+          vad_data->state=ST_SILENCE;
+        }else{
+          vad_data->state=ST_MAYBE_VOICE;
+          vad_data->total_v+=1;
+        }
       break;
 
     case ST_UNDEF:
       break;
   }
 
-  if (vad_data->state == ST_SILENCE ||
-      vad_data->state == ST_VOICE)
+  if (vad_data->state==ST_SILENCE || vad_data->state==ST_VOICE)
     return vad_data->state;
   else
     return ST_UNDEF;

@@ -8,7 +8,7 @@ float compute_power(const float *x, unsigned int N){
     for(i=0;i<N;i++){
         sumatory+=x[i]*x[i];
     }
-    p_db=10*log10((sumatory/N));
+    p_db=10*log10(sumatory/N);
     return p_db;
 }
 

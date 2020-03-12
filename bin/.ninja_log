@@ -1,5 +1,3 @@
 # ninja log v5
-1	1518	1583748922	build.ninja	b621299d15475573
-14	449	1583748923	vad@exe/src_vad.c.o	c36367caf77eaccb
-1	546	1583748923	vad@exe/src_main_vad.c.o	d098179ec8175ebe
-548	875	1583748923	vad	c312e30cac90a429
+17	297	1583960561	vad@exe/src_vad.c.o	c36367caf77eaccb
+1	351	1583960561	vad@exe/src_main_vad.c.o	d098179ec8175ebe
