@@ -1,3 +1,5 @@
 # ninja log v5
 17	297	1583960561	vad@exe/src_vad.c.o	c36367caf77eaccb
 1	351	1583960561	vad@exe/src_main_vad.c.o	d098179ec8175ebe
+15	541	1584006365	vad@exe/src_vad.c.o	c36367caf77eaccb
+549	922	1584006366	vad	c312e30cac90a429

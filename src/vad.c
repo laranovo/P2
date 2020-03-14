@@ -5,13 +5,9 @@
 #include "vad.h"
 
 const float FRAME_TIME = 10.0F; /* in ms. */
-const int NINIT=3;
-const float ALFA1=0;
-const float ALFA2=0;
-const float DEF_PWR=-29.5;
-const float MIN_PWR=-90;
-
-
+const int NINIT=4;
+const float ALFA1=2;
+const float ALFA2=6;
 
 /* 
  * As the output state is only ST_VOICE, ST_SILENCE, or ST_UNDEF,
@@ -52,10 +48,17 @@ Features compute_features(const float *x, int N) {
    * Ouput: computed features
    */
   Features feat;
-  feat.p=compute_power(x,N);
+
+  float p=0, sumatory=0;
+  int i;
+    
+  for(i=0;i<N;i++){
+    sumatory+=x[i]*x[i];
+  }
+  feat.p=10*log10(sumatory/N);
+  /*feat.p=compute_power(x,N);
   feat.am=compute_am(x,N);
-  feat.zcr=compute_zcr(x,N,16000);
-  
+  feat.zcr=compute_zcr(x,N,16000);*/
   /* 
    * DELETE and include a call to your own functions
    *
