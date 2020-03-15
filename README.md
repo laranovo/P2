@@ -110,15 +110,22 @@ Ejercicios
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
 
 <img src="img/c1.JPG" width="640" align="center">
-<img src="img/c2.JPG" width="640" align="center">
+<img src="img/captura.JPG" width="640" align="center">
 
 Nivel silencio
+
 25 dB
+
 Nivel fricativa sorda (S) somo/s/
+
 40,1 dB
+
 Nivel consonante sonora (S) /s/omos
+
 45 dB
+
 Vocal (È) /è/ric
+
 46,46 dB
 
 Un incremento aproximado de 15dB es suficiente para asegurar que s eha dejado de estar en silencio. La duración mínima razonable tiene 
