@@ -110,7 +110,7 @@ Ejercicios
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
 
 <img src="img/c1.JPG" width="640" align="center">
-<img src="img/captura.JPG" width="640" align="center">
+<img src="img/Captura.JPG" width="640" align="center">
 
 Nivel silencio
 
