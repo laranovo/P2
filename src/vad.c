@@ -39,6 +39,10 @@ typedef struct {
 * TODO: Delete and use your own features!
 */
 
+/*LÓGICA DEL CÓDIGO:
+* En este código implementamos los criterios de decisión de los distintos estados. Lo más importante es saber que hemos escogido K0 
+* como el valor de silencio, k1 para voz y k2 para tramos de silencio en medio de voz.
+
 Features compute_features(const float *x, int N) {
   /*
   * Input: x[i] : i=0 .... N-1
