@@ -109,8 +109,8 @@ Ejercicios
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
 
-<img src="img/c1.jpg" width="640" align="center">
-<img src="img/c2.jpg" width="640" align="center">
+<img src="img/c1.JPG" width="640" align="center">
+<img src="img/c2.JPG" width="640" align="center">
 
 Nivel silencio
 25 dB
