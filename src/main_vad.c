@@ -94,7 +94,17 @@ int main(int argc, char *argv[]) {
     }
 
     state = vad(vad_data, buffer);
-
+    //*******************
+    /*LÓGICA DEL CÓDIGO
+    En este código lo que haremos a grandes rasgos es lo siguiente:
+    - Usaremos un vector que almacene los últimos estados y se vaya actualizando
+    - Si nos encontramos con un fragmento MAYBE, miraremos el buffer de estados y 
+    decidiremos si estamos en un fragmento de voz o silencio viendo la resta entre la cantidad
+    total de estos estados de cada tipo en el vector. Si se diera el caso que la cantidad entre
+    silencio y voz es la misma, entonces tomaremos como referencia la potencia. Iremos acumulando
+    también la potencia de las últimas muestras y si no se supera cierto umbral determinaremos
+    que estamos en un estado de silencio.
+    */
     estados[size-t % size-1] = state;
     if(state==ST_MAYBE_VOICE || state==ST_MAYBE_SILENCE){
       cont=size;
