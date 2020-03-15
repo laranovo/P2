@@ -26,6 +26,16 @@ int main(int argc, char *argv[]) {
 
   char	*input_wav, *output_vad, *output_wav;
 
+ //**************MIS VARIABLES**************
+  int total_voice=0, total_silence=0, cont=11, size=11, estados[size];
+  float pot_acum=0;
+
+  for  (i=0; i<size; i++) 
+    estados[i]=0;
+
+  i=0;
+//******************************************
+
   DocoptArgs args = docopt(argc, argv, /* help */ 1, /* version */ "2.0");
 
   verbose    = args.verbose ? DEBUG_VAD : 0;
@@ -38,7 +48,7 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  /* Open input sound file */
+/* Open input sound file */
   if ((sndfile_in = sf_open(input_wav, SFM_READ, &sf_info)) == 0) {
     fprintf(stderr, "Error opening input file %s (%s)\n", input_wav, strerror(errno));
     return -1;
@@ -62,16 +72,18 @@ int main(int argc, char *argv[]) {
       return -1;
     }
   }
-
   vad_data = vad_open(sf_info.samplerate);
   /* Allocate memory for buffers */
   frame_size   = vad_frame_size(vad_data);
   buffer       = (float *) malloc(frame_size * sizeof(float));
   buffer_zeros = (float *) malloc(frame_size * sizeof(float));
-  for (i=0; i< frame_size; ++i) buffer_zeros[i] = 0.0F;
+
+  for (i=0; i< frame_size; ++i) 
+    buffer_zeros[i] = 0.0F;
 
   frame_duration = (float) frame_size/ (float) sf_info.samplerate;
   last_state = ST_UNDEF;
+
 
   for (t = last_t = 0; ; t++) { /* For each frame ... */
     /* End loop when file has finished (or there is an error) */
@@ -82,10 +94,43 @@ int main(int argc, char *argv[]) {
     }
 
     state = vad(vad_data, buffer);
+
+    estados[size-t % size-1] = state;
+    if(state==ST_MAYBE_VOICE || state==ST_MAYBE_SILENCE){
+      cont=size;
+      while(estados[cont]!=0 || cont==0){
+        if(estados[cont]==ST_VOICE){
+          total_voice+=1;
+        }
+        else if(estados[cont]==ST_SILENCE){
+          total_silence +=1;
+        } 
+        pot_acum+=buffer[cont]*buffer[cont];
+        cont-=1;       
+      }
+      cont=0;
+      if(total_voice-total_silence > 1) 
+        state=ST_VOICE;
+      else if(total_silence-total_voice > 1 ) 
+        state=ST_SILENCE;
+      else{
+        if (pot_acum>0.0075){
+          state=ST_VOICE;
+        }else{
+          state=ST_SILENCE;
+        }
+      }
+      pot_acum=0;    
+      total_voice=0; 
+      total_silence=0;  
+    }
+
     if (verbose & DEBUG_VAD) vad_show_state(vad_data, stdout);
 
     /* TODO: print only SILENCE and VOICE labels */
     /* As it is, it prints UNDEF segments but is should be merge to the proper value */
+
+
     if (state != last_state) {
       if (t != last_t)
         fprintf(vadfile, "%.5f\t%.5f\t%s\n", last_t * frame_duration, t * frame_duration, state2str(last_state));
@@ -104,6 +149,7 @@ int main(int argc, char *argv[]) {
     fprintf(vadfile, "%.5f\t%.5f\t%s\n", last_t * frame_duration, t * frame_duration + n_read / (float) sf_info.samplerate, state2str(state));
 
   /* clean up: free memory, close open files */
+
   free(buffer);
   free(buffer_zeros);
   sf_close(sndfile_in);
