@@ -109,6 +109,17 @@ Ejercicios
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
 
+Nivel silencio
+25 dB
+Nivel fricativa sorda (S) somo/s/
+40,1 dB
+Nivel consonante sonora (S) /s/omos
+45 dB
+Vocal (È) /è/ric
+46,46 dB
+
+Un incremento aproximado de 15dB es suficiente para asegurar que s eha dejado de estar en silencio. La duración mínima razonable tiene que ser de 30ms, una trama menor no nos puede dar información de que la señal pertenece a voz o silencio.
+De la tasa de cruces se puede considerar silencio cuando se tienen muchos, mas no encontramos que sea una mesura muy cierta, ya que los picos más altos también se encuentran justo antes de letras como son las p, t o k. Así que se puede decir que para tramos con altos valores de tasa de cruces por zero hay casi seguro silencio.
 
 ### Desarrollo del detector de actividad vocal
 
@@ -118,13 +129,22 @@ Ejercicios
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto. 
 
-
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
 
+****** Summary ******
+Recall V:371.95/384.10 96.84%   Precision V:371.95/413.79 89.89%   F-score V (2)  : 95.36%
+Recall S:230.74/272.58 84.65%   Precision S:230.74/242.89 95.00%   F-score S (1/2): 92.73%
+===> TOTAL: 94.037%
+
+Hay discrepancias sobretodo en zonas donde termina una palabra y empieza otra, puesto que en estas zonas
+el tiempo mínimo que esparamos ver en una zona de voz no se cumple del todo, y por ello marca una zona de silencio. 
+También se marcan durante un poco más las áreas de silencio, esto es porqué como las marcas que ponemos nosotros son a ojo,
+son imprecisas, mientras que las que impone el autómata son mucho más precisas ya que tiene en cuenta la potencia a la hora
+de decidir.
 
 ### Trabajos de ampliación
 
@@ -147,6 +167,17 @@ Ejercicios
 
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que considere
   de interés de cara a su evaluación.
+
+En nuestro caso hemos desechado completamente el uso de la amplitud y los cruces por cero y nos hemos centrado únicamente en
+la potencia. Hemos utilizado los parámetros sugeridos en el manual, aunque para hacer la parte del main hemos utilizado una 
+especie de buffer de estados para añadir robustez a la elección de si el estado que se debe registrar es voice o silence.
+También podemos observar que para la mejora del F-Score de nuestro programa hemos ido ajustando los parámatetros, sabiendo que los
+calculados con wavesurfer eran buenos pero aún mejorables. A medida que nos aumentaba el F_Score ajustamos los valores.
+
+Tras haber completado esta práctica podemos concluir que hemos observado que completar un código puede llegar a ser incluso más 
+complejo que realizarlo de 0, ya que la mayor parte del tiempo la hemos dedicado a entender qué decía el código.
+Hay que destacar la dificultad añadida del GitHub, fácil e intuitivo una vez ya se dominan los comandos y se sabe como va y hasta donde 
+se puede llegar. 
 
 
 ### Antes de entregar la práctica
