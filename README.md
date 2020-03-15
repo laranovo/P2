@@ -109,6 +109,9 @@ Ejercicios
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
 
+<img src="img/c1.jpeg" width="640" align="center">
+<img src="img/c2.jpeg" width="640" align="center">
+
 Nivel silencio
 25 dB
 Nivel fricativa sorda (S) somo/s/
@@ -118,8 +121,11 @@ Nivel consonante sonora (S) /s/omos
 Vocal (È) /è/ric
 46,46 dB
 
-Un incremento aproximado de 15dB es suficiente para asegurar que s eha dejado de estar en silencio. La duración mínima razonable tiene que ser de 30ms, una trama menor no nos puede dar información de que la señal pertenece a voz o silencio.
-De la tasa de cruces se puede considerar silencio cuando se tienen muchos, mas no encontramos que sea una mesura muy cierta, ya que los picos más altos también se encuentran justo antes de letras como son las p, t o k. Así que se puede decir que para tramos con altos valores de tasa de cruces por zero hay casi seguro silencio.
+Un incremento aproximado de 15dB es suficiente para asegurar que s eha dejado de estar en silencio. La duración mínima razonable tiene 
+que ser de 30ms, una trama menor no nos puede dar información de que la señal pertenece a voz o silencio.
+De la tasa de cruces se puede considerar silencio cuando se tienen muchos, mas no encontramos que sea una mesura muy cierta, ya que los 
+picos más altos también se encuentran justo antes de letras como son las p, t o k. Así que se puede decir que para tramos con altos 
+valores de tasa de cruces por zero hay casi seguro silencio.
 
 ### Desarrollo del detector de actividad vocal
 
@@ -134,6 +140,9 @@ De la tasa de cruces se puede considerar silencio cuando se tienen muchos, mas n
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
+
+<img src="img/c3.jpeg" width="640" align="center">
+
 
 ****** Summary ******
 Recall V:371.95/384.10 96.84%   Precision V:371.95/413.79 89.89%   F-score V (2)  : 95.36%
